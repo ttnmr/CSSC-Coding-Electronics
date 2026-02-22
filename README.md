@@ -1,4 +1,4 @@
 # CSSC-Coding-Electronics
 A planetary probe for experimentation
-eris.py file (on computer)
-sudo nano eris.py (command)
+\n eris.py file (on computer)
+\n sudo nano eris.py (command)

@@ -9,7 +9,6 @@
     <style>
         body { background-color: #000000; font-family: 'Segoe UI', sans-serif; color: white; }
         
-        /* The requested white border container */
         .info-container { 
             border-left: 3px solid white; 
             padding-left: 25px; 
@@ -57,6 +56,18 @@
                 </h5>
                 <div id="status-msg" class="text-white-50 small mb-2">Waiting for thermal trigger (22.1°C)</div>
                 <img id="eris-photo" src="" alt="Eris Surface Capture">
+
+                <hr class="my-4" style="border-color: #444;">
+                
+                <h2 class="text-uppercase mb-4">Project Function</h2>
+                <p>To create our sensor, we connected a <strong>BME280</strong> (temperature, humidity, and pressure sensor) and a <strong>PiCamera 2</strong> to a Raspberry Pi. The BME280 collects and processes the necessary data, displaying the data on a constantly updating graph.</p>
+                <p>When the sensor detects a temperature greater than <strong>22.1 degrees celsius</strong>, the PiCamera 2 takes a photo and displays it on our website. Using a virtual environment of Eris, this system allows us to simulate how a large scale probe would work. Our project continuously documents and records different types of data in any environment.</p>
+
+                <hr class="my-4" style="border-color: #444;">
+                
+                <h2 class="text-uppercase mb-4">Conclusion</h2>
+                <p>The operability of our experiment probe was limited by the environment we had. Because Eris’s surface temperature reaches extremely low numbers, it would be unreasonable to detect those temperatures on Earth. If we had more time to expand on our project's functionality, we would implement a <strong>moisture sensor</strong> and <strong>magnetic sensor</strong>.</p>
+                <p>These features allow us to examine aspects of environmental changes that are more relevant to Eris, since little to no information exists regarding its internal structure and magnetosphere. When in use, these sensors would provide us with more data. However, with the time given, we believe that we created a strong base structure that can be expanded on.</p>
             </div>
         </div>
 
@@ -67,7 +78,7 @@
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
                                 <h5 class="text-uppercase mb-0">Temperature <span id="temp-alert" class="badge bg-danger ms-2 d-none">ALERT</span></h5>
-                                <div class="stat-value" id="temp-display">{{ temp|round(1) }}°C</div>
+                                <div class="stat-value" id="temp-display">--°C</div>
                             </div>
                             <div class="text-end text-white-50 small">Click for graph</div>
                         </div>
@@ -81,7 +92,7 @@
                     <div class="card shadow-sm bg-success text-white">
                         <div class="card-body">
                             <h5 class="text-uppercase mb-0">Humidity</h5>
-                            <div class="stat-value" id="hum-display">{{ humidity|round(1) }}%</div>
+                            <div class="stat-value" id="hum-display">--%</div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +101,7 @@
                     <div class="card shadow-sm bg-dark text-white">
                         <div class="card-body">
                             <h5 class="text-uppercase mb-0">Pressure</h5>
-                            <div class="stat-value" id="pres-display">{{ pressure|round(1) }} hPa</div>
+                            <div class="stat-value" id="pres-display">-- hPa</div>
                         </div>
                     </div>
                 </div>
@@ -130,7 +141,6 @@
 
     async function updateDashboard() {
         try {
-            // Fetching from the /data route in app.py
             const response = await fetch('/data');
             if (!response.ok) throw new Error('Route /data not found');
             const data = await response.json();
@@ -157,7 +167,7 @@
                 hasTakenPhoto = true; 
             } else if (data.temp <= 22.1) {
                 document.getElementById('temp-alert').classList.add('d-none');
-                hasTakenPhoto = false; // Reset trigger
+                hasTakenPhoto = false; 
             }
 
             // Update Chart
